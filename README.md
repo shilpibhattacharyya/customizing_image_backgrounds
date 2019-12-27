@@ -167,6 +167,42 @@ files.download('res.png')
 The resulting image looks like as below.
 ![Giggly](images/res5.png) 
 
+## 5. Grayscale the background
+And how about turning your background to grayscale? Well, below is the code to do it.
+![Giggly](images/res6.png) 
+
+```# Load the foreground input image
+foreground = cv2.imread("/content/drive/My Drive/woman-with-car.jpg")
+# Resize image to match shape of R-band in RGB output map
+foreground = cv2.resize(foreground, (rgb.shape[1],rgb.shape[0]), interpolation = cv2.INTER_AREA)
+# Create a background image by copying foreground and converting into grayscale
+background = cv2.cvtColor(foreground, cv2.COLOR_BGR2GRAY)
+# convert single channel grayscale image to 3-channel grayscale image
+background = cv2.cvtColor(background, cv2.COLOR_GRAY2RGB)
+# Convert uint8 to float
+foreground = foreground.astype(float)
+background = background.astype(float)
+# Create a binary mask of the RGB output map using the threshold value 0
+th, alpha = cv2.threshold(np.array(rgb),0,255, cv2.THRESH_BINARY)
+# Apply a slight blur to the mask to soften edges
+alpha = cv2.GaussianBlur(alpha, (7,7),0)
+# Normalize the alpha mask to keep intensity between 0 and 1
+alpha = alpha.astype(float)/255
+# Multiply the foreground with the alpha matte
+foreground = cv2.multiply(alpha, foreground)
+# Multiply the background with ( 1 - alpha )
+background = cv2.multiply(1.0 - alpha, background)
+# Add the masked foreground and background
+outImage = cv2.add(foreground, background)
+numpy_horizontal = np.hstack((img, outImage))
+numpy_horizontal_concat = np.concatenate((img, outImage), axis=1)
+# Display image
+cv2_imshow(numpy_horizontal_concat)
+cv2.waitKey(0)
+# Save image
+cv2.imwrite('res.png' , numpy_horizontal_concat)
+files.download('res.png')
+```
 
 ## Conclusion:
 I got the motivation to work on this when I used to see pretty profile pictures on LinkedIn with white background but did not want to use photoshop or even little manual editing. What they say, when you are a programmer, you make your code work for you.
