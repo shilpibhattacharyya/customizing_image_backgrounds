@@ -1,10 +1,10 @@
 # Whiten/Customize the background of images using Semantic Segmentation and Alpha Blending
 
-![Giggly](res1.png)
+![Giggly](images/res1.png)
 Have you ever wanted to whiten/change the background of your image without going crazy over photoshop? Well, enter Semantic Segmentation. Semantic Segmentation is an image analysis task in which we classify each pixel in the image into a class. Similar to what us humans do all the time by default, when are looking then whatever we are seeing if we think of that as an image then we know what class each pixel of the image belongs to. Essentially, Semantic Segmentation is the technique through which we can achieve this in Computers. There are a few more types of Segmentation, you can read about it more here.
 I am using DeepLabV3 for achieving semantic segmentation and alpha blending to blend a new background with the original image.
 
-![Giggly](res2.png)
+![Giggly](images/res2.png)
 
 DeepLab is a Semantic Segmentation Architecture that came out of Google Brain. It is a state-of-art deep learning model for semantic image segmentation, where the goal is to assign semantic labels (e.g., person, dog, cat and so on) to every pixel in the input image. Current implementation includes the following features: DeepLabv1: use atrous convolution to explicitly control the resolution at which feature responses are computed within Deep Convolutional Neural Networks; DeepLabv2: using atrous spatial pyramid pooling (ASPP) to robustly segment objects at multiple scales with filters at multiple sampling rates and effective fields-of-views; DeepLabv3: augment the ASPP module with image-level feature to capture longer range information. This also includes batch normalization parameters to facilitate the training. In particular, by applying atrous convolution to extract output features at different output strides during training and evaluation efficiently enables training BN at output stride = 16 and attains a high performance at output stride = 8 during evaluation. If you want to learn more about DeepLab, it can be found here.
   
@@ -112,7 +112,7 @@ cv2.waitKey(0)
 cv2.imwrite('org_plus_cust_bkg_img.png' , outImage)
 files.download('org_plus_cust_bkg_img.png')
 ```
-![Giggly](res3.png) 
+![Giggly](images/res3.png) 
 
 ## 3. Whiten the background
 ```
@@ -129,7 +129,7 @@ cv2.waitKey(0)
 cv2.imwrite('org_plus_white_bkg_image.jpeg',numpy_horizontal_concat)files.download('org_plus_white_bkg_image.jpeg')
 ```
 
-![Giggly](res4.png)
+![Giggly](images/res4.png)
 
 ## Conclusion:
 I got the motivation to work on this when I used to see pretty profile pictures on LinkedIn with white background but did not want to use photoshop or even little manual editing. What they say, when you are a programmer, you make your code work for you.
