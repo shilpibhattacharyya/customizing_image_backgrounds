@@ -179,5 +179,6 @@ As a follow up work, the background of images can be blurred as well as changed 
 Alpha Blending — https://www.learnopencv.com/alpha-blending-using-opencv-cpp-python/
 Semantic Segmentation — https://www.learnopencv.com/pytorch-for-beginners-semantic-segmentation-using-torchvision/
 DeepLab — https://github.com/tensorflow/models/tree/master/research/deeplab
+https://www.learnopencv.com/applications-of-foreground-background-separation-with-semantic-segmentation/
 ```
 Please feel free to comment if you have any queries.
