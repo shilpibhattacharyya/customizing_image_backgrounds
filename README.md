@@ -217,4 +217,4 @@ Semantic Segmentation — https://www.learnopencv.com/pytorch-for-beginners-sema
 DeepLab — https://github.com/tensorflow/models/tree/master/research/deeplab
 https://www.learnopencv.com/applications-of-foreground-background-separation-with-semantic-segmentation/
 ```
-Please feel free to comment if you have any queries.
+Please feel free to create an issue if you have any queries.
