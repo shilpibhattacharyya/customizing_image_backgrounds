@@ -1,10 +1,10 @@
 # Whiten/Customize the background of images using Semantic Segmentation and Alpha Blending
 
-![Giggly](res1.png)
+![Giggly](images/res1.png)
 Have you ever wanted to whiten/change the background of your image without going crazy over photoshop? Well, enter Semantic Segmentation. Semantic Segmentation is an image analysis task in which we classify each pixel in the image into a class. Similar to what us humans do all the time by default, when are looking then whatever we are seeing if we think of that as an image then we know what class each pixel of the image belongs to. Essentially, Semantic Segmentation is the technique through which we can achieve this in Computers. There are a few more types of Segmentation, you can read about it more here.
 I am using DeepLabV3 for achieving semantic segmentation and alpha blending to blend a new background with the original image.
 
-![Giggly](res2.png)
+![Giggly](images/res2.png)
 
 DeepLab is a Semantic Segmentation Architecture that came out of Google Brain. It is a state-of-art deep learning model for semantic image segmentation, where the goal is to assign semantic labels (e.g., person, dog, cat and so on) to every pixel in the input image. Current implementation includes the following features: DeepLabv1: use atrous convolution to explicitly control the resolution at which feature responses are computed within Deep Convolutional Neural Networks; DeepLabv2: using atrous spatial pyramid pooling (ASPP) to robustly segment objects at multiple scales with filters at multiple sampling rates and effective fields-of-views; DeepLabv3: augment the ASPP module with image-level feature to capture longer range information. This also includes batch normalization parameters to facilitate the training. In particular, by applying atrous convolution to extract output features at different output strides during training and evaluation efficiently enables training BN at output stride = 16 and attains a high performance at output stride = 8 during evaluation. If you want to learn more about DeepLab, it can be found here.
   
@@ -112,7 +112,7 @@ cv2.waitKey(0)
 cv2.imwrite('org_plus_cust_bkg_img.png' , outImage)
 files.download('org_plus_cust_bkg_img.png')
 ```
-![Giggly](res3.png) 
+![Giggly](images/res3.png) 
 
 ## 3. Whiten the background
 ```
@@ -129,7 +129,44 @@ cv2.waitKey(0)
 cv2.imwrite('org_plus_white_bkg_image.jpeg',numpy_horizontal_concat)files.download('org_plus_white_bkg_image.jpeg')
 ```
 
-![Giggly](res4.png)
+![Giggly](images/res4.png)
+
+## 4. Blur the background
+We often want to blur the background of our images. The following code can be used to achieve this.
+```
+# Read the images
+foreground = cv2.imread("/content/drive/My Drive/girl8.jpg")
+# Create a Gaussian blur of kernel size 7 for the background image
+blurredImage = cv2.GaussianBlur(foreground, (7,7), 0)
+# Convert uint8 to float
+foreground = foreground.astype(float)
+blurredImage = blurredImage.astype(float)
+# Create a binary mask of the RGB output map using the threshold value 0
+th, alpha = cv2.threshold(np.array(rgb),0,255, cv2.THRESH_BINARY)
+# Apply a slight blur to the mask to soften edges
+alpha = cv2.GaussianBlur(alpha, (7,7),0)
+# Normalize the alpha mask to keep intensity between 0 and 1
+alpha = alpha.astype(float)/255
+# Multiply the foreground with the alpha matte
+foreground = cv2.multiply(alpha, foreground)
+# Multiply the background with ( 1 - alpha )
+background = cv2.multiply(1.0 - alpha, blurredImage)
+# Add the masked foreground and background
+outImage = cv2.add(foreground, background)
+# Return a normalized output image for display
+outImage= outImage
+numpy_horizontal = np.hstack((img, outImage))
+numpy_horizontal_concat = np.concatenate((img, outImage), axis=1)
+# Display image
+cv2_imshow(numpy_horizontal_concat)
+cv2.waitKey(0)
+# Save/download the resulting image
+cv2.imwrite('res.png' , numpy_horizontal_concat)
+files.download('res.png')
+```
+The resulting image looks like as below.
+![Giggly](images/res5.png) 
+
 
 ## Conclusion:
 I got the motivation to work on this when I used to see pretty profile pictures on LinkedIn with white background but did not want to use photoshop or even little manual editing. What they say, when you are a programmer, you make your code work for you.
