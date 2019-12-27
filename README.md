@@ -131,6 +131,43 @@ cv2.imwrite('org_plus_white_bkg_image.jpeg',numpy_horizontal_concat)files.downlo
 
 ![Giggly](images/res4.png)
 
+## 4. Blur the background
+We often want to blur the background of our images. The following code can be used to achieve this.
+```
+# Read the images
+foreground = cv2.imread("/content/drive/My Drive/girl8.jpg")
+# Create a Gaussian blur of kernel size 7 for the background image
+blurredImage = cv2.GaussianBlur(foreground, (7,7), 0)
+# Convert uint8 to float
+foreground = foreground.astype(float)
+blurredImage = blurredImage.astype(float)
+# Create a binary mask of the RGB output map using the threshold value 0
+th, alpha = cv2.threshold(np.array(rgb),0,255, cv2.THRESH_BINARY)
+# Apply a slight blur to the mask to soften edges
+alpha = cv2.GaussianBlur(alpha, (7,7),0)
+# Normalize the alpha mask to keep intensity between 0 and 1
+alpha = alpha.astype(float)/255
+# Multiply the foreground with the alpha matte
+foreground = cv2.multiply(alpha, foreground)
+# Multiply the background with ( 1 - alpha )
+background = cv2.multiply(1.0 - alpha, blurredImage)
+# Add the masked foreground and background
+outImage = cv2.add(foreground, background)
+# Return a normalized output image for display
+outImage= outImage
+numpy_horizontal = np.hstack((img, outImage))
+numpy_horizontal_concat = np.concatenate((img, outImage), axis=1)
+# Display image
+cv2_imshow(numpy_horizontal_concat)
+cv2.waitKey(0)
+# Save/download the resulting image
+cv2.imwrite('res.png' , numpy_horizontal_concat)
+files.download('res.png')
+```
+The resulting image looks like as below.
+![Giggly](images/res5.png) 
+
+
 ## Conclusion:
 I got the motivation to work on this when I used to see pretty profile pictures on LinkedIn with white background but did not want to use photoshop or even little manual editing. What they say, when you are a programmer, you make your code work for you.
 As evident from above results, changing or whitening background of images is plausible with the combination of semantic segmentation and alpha blending and the results are not half bad.
