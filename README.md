@@ -138,8 +138,9 @@ You can have this entire code in a python script and by passing two command line
 As a follow up work, the background of images can be blurred as well as changed to a different scale (for example, grayscale).
 
 ## References:
+```
 Alpha Blending — https://www.learnopencv.com/alpha-blending-using-opencv-cpp-python/
 Semantic Segmentation — https://www.learnopencv.com/pytorch-for-beginners-semantic-segmentation-using-torchvision/
 DeepLab — https://github.com/tensorflow/models/tree/master/research/deeplab
-
+```
 Please feel free to comment if you have any queries.
